@@ -17,6 +17,7 @@ async function run() {
     try {
         await client.connect();
         const productCollection = client.db('TitanAutomobiles').collection('product');
+        const orderCollection = client.db('TitanAutomobiles').collection('order');
         // Get all Api
         app.get('/products', async (req, res) => {
             const query = {};
@@ -25,9 +26,9 @@ async function run() {
             res.send(products);
         });
         // Route to Inventory and details
-        app.get('/products/:id', async (req, res) => {
+        app.get('/product/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: ObjectId(id) };
+            const query = {_id: ObjectId(id) };
             const product = await productCollection.findOne(query);
             res.send(product);
         })
@@ -42,6 +43,13 @@ async function run() {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await productCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // Order api
+        app.post('/order', async(req, res) => {
+            const order = req.body;
+            const result = await orderCollection.insertOne(order);
             res.send(result);
         })
 
