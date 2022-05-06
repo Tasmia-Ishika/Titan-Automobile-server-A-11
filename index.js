@@ -32,20 +32,19 @@ async function run() {
             res.send(product);
         })
         // POST api Insert
-        app.post('/addSingleProduct', async (req, res) => {
+        app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productCollection.insertOne(product)
             res.send(result)
         })
         // DELETE API 
-     app.delete('/deleteOrder/:id', async(req, res)=>{
-        const id = req.params.id;
-        const query = {_id: ObjectId(id)};
-        const result = await serviceCollection.deleteOne(query);
-        res.send(result)
-        
-    })
-     
+        app.delete('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await productCollection.deleteOne(query);
+            res.send(result);
+        })
+
 
 
 
