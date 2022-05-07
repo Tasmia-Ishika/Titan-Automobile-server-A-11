@@ -28,7 +28,7 @@ async function run() {
         // Route to Inventory and details
         app.get('/product/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: ObjectId(id) };
+            const query = { _id: ObjectId(id) };
             const product = await productCollection.findOne(query);
             res.send(product);
         })
@@ -38,6 +38,23 @@ async function run() {
             const result = await productCollection.insertOne(product)
             res.send(result)
         })
+        // PUT api increase decrease
+        app.put('/quantity/:id', async (req, res) => {
+            const id = req.params.id;
+            const quantity = req.body.newQuantity;
+            const sold = req.body.newSold;
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    quantity, sold 
+                }
+            };
+            const result = await productCollection.updateOne(filter, updatedDoc, options);
+            res.send(result);
+        });
+
+
         // DELETE API 
         app.delete('/products/:id', async (req, res) => {
             const id = req.params.id;
@@ -47,7 +64,7 @@ async function run() {
         })
 
         // my list api
-        app.post('/myItem', async(req, res) => {
+        app.post('/myItem', async (req, res) => {
             const order = req.body;
             const result = await updatedCollection.insertOne(order);
             res.send(result);
