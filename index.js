@@ -17,7 +17,7 @@ async function run() {
     try {
         await client.connect();
         const productCollection = client.db('TitanAutomobiles').collection('product');
-        const orderCollection = client.db('TitanAutomobiles').collection('order');
+        const updatedCollection = client.db('TitanAutomobiles').collection('order');
         // Get all Api
         app.get('/products', async (req, res) => {
             const query = {};
@@ -46,10 +46,10 @@ async function run() {
             res.send(result);
         })
 
-        // Order api
-        app.post('/order', async(req, res) => {
+        // my list api
+        app.post('/myItem', async(req, res) => {
             const order = req.body;
-            const result = await orderCollection.insertOne(order);
+            const result = await updatedCollection.insertOne(order);
             res.send(result);
         })
 
