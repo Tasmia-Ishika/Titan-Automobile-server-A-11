@@ -17,7 +17,7 @@ async function run() {
     try {
         await client.connect();
         const productCollection = client.db('TitanAutomobiles').collection('product');
-        const updatedCollection = client.db('TitanAutomobiles').collection('order');
+        // const updatedCollection = client.db('TitanAutomobiles').collection('order');
         // Get all Api
         app.get('/products', async (req, res) => {
             const query = {};
@@ -47,7 +47,7 @@ async function run() {
             const options = { upsert: true };
             const updatedDoc = {
                 $set: {
-                    stock: updatedProduct.stock , sold
+                    stock: updatedProduct.stock, sold
                 }
             };
             const result = await productCollection.updateOne(filter, updatedDoc, options);
@@ -64,9 +64,12 @@ async function run() {
         })
 
         // my list api
-        app.post('/myItem', async (req, res) => {
-            const order = req.body;
-            const result = await updatedCollection.insertOne(order);
+        app.get('/myItem', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const cursor = products.find(query);
+            const result = await cursor.toArray();
             res.send(result);
         })
 
