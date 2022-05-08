@@ -39,15 +39,15 @@ async function run() {
             res.send(result)
         })
         // PUT api increase decrease
-        app.put('/quantity/:id', async (req, res) => {
+        app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
-            const quantity = req.body.newQuantity;
+            const updatedProduct = req.body;
             const sold = req.body.newSold;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updatedDoc = {
                 $set: {
-                    quantity, sold 
+                    stock: updatedProduct.stock , sold
                 }
             };
             const result = await productCollection.updateOne(filter, updatedDoc, options);
