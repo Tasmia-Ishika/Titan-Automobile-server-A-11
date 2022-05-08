@@ -42,7 +42,11 @@ async function run() {
             res.send(product);
         })
         // POST api Insert
-        
+        app.post('/products', async (req, res) => {
+            const product = req.body;
+            const result = await productCollection.insertOne(product)
+            res.send(result)
+        })
         // PUT api increase decrease
         app.put('/product/:id', async (req, res) => {
             const id = req.params.id;
