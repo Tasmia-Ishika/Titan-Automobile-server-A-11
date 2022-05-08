@@ -71,15 +71,7 @@ async function run() {
             res.send(result);
         })
 
-        // my list api
-        app.get('/myItem', async (req, res) => {
-            const email = req.query.email;
-            console.log(email);
-            const query = { email: email };
-            const cursor = productCollection.find(query);
-            const result = await cursor.toArray();
-            res.send(result);
-        })
+       
 
 
 
