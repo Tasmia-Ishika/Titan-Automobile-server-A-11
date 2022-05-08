@@ -19,11 +19,12 @@ async function run() {
         await client.connect();
         const productCollection = client.db('TitanAutomobiles').collection('product');
         // AUTH 
-        app.post('/login', async (req, res) => { const user = req.body;
-            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{
+        app.post('/login', async (req, res) => {
+            const user = req.body;
+            const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
                 expiresIn: '1d'
             });
-            res.send({accessToken});
+            res.send({ accessToken });
 
         })
         // Get all Api
@@ -71,11 +72,15 @@ async function run() {
             res.send(result);
         })
 
-       
-
-
-
-
+        // / my list api
+        app.get('/myItem', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
+            const cursor = productCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
 
     }
     finally {
